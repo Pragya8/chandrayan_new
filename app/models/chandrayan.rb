@@ -3,7 +3,7 @@ class Chandrayan < ApplicationRecord
   ROTATIONS = %w[l r u d].freeze
 
   validates_presence_of :x, :y, :z, :direction
-  before_save :set_default_values
+  after_initialize :set_default_values
 
   def set_default_values
     @position ||= { x: x || 0, y: y || 0, z: z || 0 }
@@ -44,10 +44,7 @@ class Chandrayan < ApplicationRecord
     @direction
   end
 
-  private
-
   def move_forward
-    byebug
     case @direction
     when 'N' then @position[:y] += 1
     when 'S' then @position[:y] -= 1
@@ -59,7 +56,6 @@ class Chandrayan < ApplicationRecord
   end
 
   def move_backward
-    byebug
     case @direction
     when 'N' then @position[:y] -= 1
     when 'S' then @position[:y] += 1
